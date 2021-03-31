@@ -1,12 +1,7 @@
 # Databricks notebook source
-# MAGIC %pip install pydantic
-
-# COMMAND ----------
-
 import pandas as pd
 import numpy as np
 import os
-import pydantic
 
 # COMMAND ----------
 
@@ -16,22 +11,6 @@ GRANULARITY = "fps"
 dataDir = "/dbfs/mnt/S3_rtl-databricks-datascience/datasets/EEG-data/"
 
 os.listdir(dataDir)
-
-# COMMAND ----------
-
-# bucket = "rtl-databricks-datascience/datasets/EEG-data/Sensor Data"
-# mount = "EEG-data"
-
-# # mount if not already mounted
-# m = dbutils.fs.mounts()
-# if(not any('/mnt/' + mount in s for s in m)): 
-#   dbutils.fs.mount("s3a://" + bucket, '/mnt/' + mount)
-#   display(dbutils.fs.ls('/mnt/' + mount))
-
-# COMMAND ----------
-
-# MAGIC %md
-# MAGIC one csv per respondent 
 
 # COMMAND ----------
 
@@ -173,62 +152,7 @@ for f in os.listdir(dataDir + "Sensor Data/"):
 
 # COMMAND ----------
 
-d = pd.read_csv(dataDir + "Sensor Data/"+ "001_1000324.csv", index_col=0)
-d = toLongitudinal(d)
-d = formatAndClean(d)
-d = setGranularity(d)
-d = labelDuplicates(d)
-
-# COMMAND ----------
-
-meanColumns, firstColumns = setColumnSummary(d)
-firstColumns
-
-# COMMAND ----------
-
-D
-
-# COMMAND ----------
-
 D.to_csv(dataDir + "data@granularity/" + "perFrame.csv", index = False)
-
-# COMMAND ----------
-
-d = pd.read_csv(dataDir + "008_1000331.csv", index_col=0)
-#d = toLongitudinal(d)
-
-# COMMAND ----------
-
-failed
-
-# COMMAND ----------
-
-d[:50]
-
-# COMMAND ----------
-
-d[:40]
-
-# COMMAND ----------
-
-A[A["SourceStimuliName"] == "Mocro Maffia"][:50]
-
-# COMMAND ----------
-
-D.SourceStimuliName.value_counts()
-
-# COMMAND ----------
-
-C = D.columns.to_list()
-dict(zip(C, len(C)))
-
-# COMMAND ----------
-
-[1:len(C)]
-
-# COMMAND ----------
-
-D.attrs = 
 
 # COMMAND ----------
 
@@ -454,6 +378,3 @@ D.attrs =
 # MAGIC - map datasets to questions
 # MAGIC - check if joining 4Hz with others is easy
 # MAGIC - check if each dataset load well in MNE
-
-# COMMAND ----------
-
