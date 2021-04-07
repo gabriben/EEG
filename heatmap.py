@@ -98,7 +98,7 @@ os.listdir(dataDir + 'videoland-trailers/')
 
 # COMMAND ----------
 
-f = 80
+f = 110
 show = "Drag Race"
 #Mocro Maffia
 
@@ -115,8 +115,11 @@ plt.imshow(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
 # COMMAND ----------
 
 fix = d[(d["SourceStimuliName"] == show) & (d["frame"] == f)]
-x = fix[["ET_CameraLeftX", "ET_CameraRightX"]].mean(axis = 1) * image.shape[1]
-y = fix[["ET_CameraLeftY", "ET_CameraRightY"]].mean(axis = 1) * image.shape[0]
+# x = fix[["ET_CameraLeftX", "ET_CameraRightX"]].mean(axis = 1) * image.shape[1]
+# y = fix[["ET_CameraLeftY", "ET_CameraRightY"]].mean(axis = 1) * image.shape[0]
+
+x = fix[["ET_GazeLeftx", "ET_GazeRightx"]].mean(axis = 1)
+y = fix[["ET_GazeLefty", "ET_GazeRighty"]].mean(axis = 1)
 
 # only left eye (I tried to invert the y axis)
 # x = fix["ET_CameraLeftX"] * image.shape[1]
@@ -134,3 +137,10 @@ H, W, _ = image.shape
 # Create heatmap
 heatmap = Fixpos2Densemap(fix_arr, W, H, image, 0.7, 5)
 plt.imshow(cv2.cvtColor(heatmap, cv2.COLOR_BGR2RGB))
+
+# COMMAND ----------
+
+fix
+
+# COMMAND ----------
+
