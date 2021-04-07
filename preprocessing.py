@@ -53,10 +53,8 @@ def formatAndClean(d):
   d.drop(["EventSource", "SampleNumber",	"Epoch"], axis = 1, inplace = True)
 
   # eye tracker remove -1's for calculating the mean
-  eyeColumns = d.columns[np.where(d.columns == "ET_GazeLeftx")[0][0] : np.where(d.columns == "ET_ValidityRight")[0][0] + 1]
-  d[eyeColumns] = d[eyeColumns].replace("-1", np.nan)
-  d[eyeColumns] = d[eyeColumns].replace(-1.0, np.nan)
-
+  d.loc[:, "ET_GazeLeftx" : "ET_ValidityRight"].replace("-1", np.nan, inplace = True).replace(-1.0, np.nan, inplace = True)
+  
   return(d)
 # D[(D["SlideEvent"] == "StartSlide") | (D["SlideEvent"] == "EndSlide") | (D["SlideEvent"] == "StartMedia") | (D["SlideEvent"] == "EndMedia")]
 
@@ -247,6 +245,7 @@ D.to_csv(dataDir + "data@granularity/" + "perFrame.csv", index = False)
 # MAGIC 
 # MAGIC - https://mne.tools/dev/index.html (python package)
 # MAGIC - https://github.com/sari-saba-sadiya/EEGExtract (EEG feature extraction in Python)
+# MAGIC - https://neuroimage.usc.edu/brainstorm/Tutorials (advanced EEG tutorial)
 # MAGIC 
 # MAGIC ## EEG + Eye-tracking
 # MAGIC 
@@ -257,12 +256,14 @@ D.to_csv(dataDir + "data@granularity/" + "perFrame.csv", index = False)
 # MAGIC ## datasets
 # MAGIC 
 # MAGIC - https://figshare.com/articles/dataset/Loughborough_University_Multimodal_Emotion_Dataset_-_2/12644033
+# MAGIC - https://www.eecs.qmul.ac.uk/mmv/datasets/deap/index.html
 # MAGIC 
 # MAGIC ## misc
 # MAGIC 
 # MAGIC - https://arxiv.org/pdf/2012.01074.pdf (attention based quality of EEG)
 # MAGIC - https://www.researchgate.net/profile/Alessio_Zanga/publication/339907287_An_Attention-based_Architecture_for_EEG_Classification/links/5ec70810a6fdcc90d68c8ee4/An-Attention-based-Architecture-for-EEG-Classification.pdf (attention-based)
 # MAGIC - https://www.mdpi.com/1660-4601/17/11/4152/pdf (dreams)
+# MAGIC - https://www.biorxiv.org/content/10.1101/787101v3.full.pdf (reconstruction of videos from EEG)
 
 # COMMAND ----------
 
